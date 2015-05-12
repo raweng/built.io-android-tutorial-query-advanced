@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.builtio.advancequerydemo.R;
 import com.buitio.advancebuiltquery.ViewHolder.AdvanceQueryListViewHolder;
+import com.raweng.built.Built;
+import com.raweng.built.BuiltApplication;
 import com.raweng.built.BuiltError;
 import com.raweng.built.BuiltObject;
 import com.raweng.built.BuiltQuery;
@@ -42,6 +44,8 @@ public class AdvanceQueryResultListActivity extends Activity{
 	 * Declaration of BuiltUIListViewController.
 	 */
 	private BuiltUIListViewController builtUIListViewController;
+    private BuiltApplication builtApplication;
+
 
 	@SuppressLint("NewApi")
 	@Override
@@ -49,9 +53,14 @@ public class AdvanceQueryResultListActivity extends Activity{
 		super.onCreate(savedInstanceState);
 
 		/*
-		 * Initialization of BuiltUIListViewController object.
+		 * Initialization of BuiltUIListViewController object and BuiltApplication.
 		 */
-		builtUIListViewController = new BuiltUIListViewController(this, "nominees");
+		builtUIListViewController = new BuiltUIListViewController(this, "bltb69ac12834c6339b","nominees");
+        try {
+            builtApplication = Built.application(this, "bltb69ac12834c6339b");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 		/*
 		 * Setting the BuiltUIListViewController layout to activity (Initialization of layout to activity).
@@ -94,7 +103,7 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 1:
 
-			ArrayList<String> keys = new ArrayList<String>();
+			ArrayList<String> keys = new ArrayList<>();
 			keys.add("movie");
 			
 			/*
@@ -106,7 +115,7 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 2:
 
-			BuiltQuery builtQueryObject = new BuiltQuery("movie");
+            BuiltQuery builtQueryObject = builtApplication.classWithUid("movie").query();
 			builtQueryObject.lessThan("running_time", 120);
 			
 			/*
@@ -118,7 +127,7 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 3:
 
-			BuiltQuery builtQueryInstance = new BuiltQuery("movie");
+            BuiltQuery builtQueryInstance = builtApplication.classWithUid("movie").query();
 			builtQueryInstance.lessThan("running_time", 120);
 			
 			/*
@@ -130,19 +139,19 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 4:
 
-			BuiltQuery selectbuiltQueryObject = new BuiltQuery("movie");
-			selectbuiltQueryObject.lessThan("running_time", 120);
+            BuiltQuery selectBuiltQueryObject = builtApplication.classWithUid("movie").query();
+			selectBuiltQueryObject.lessThan("running_time", 120);
 
 			/*
 			 * Querying to loading list for select condition.
 			 */
-			builtUIListViewController.getBuiltQueryInstance().select("movie_text", selectbuiltQueryObject, "title");
+			builtUIListViewController.getBuiltQueryInstance().select("movie_text", selectBuiltQueryObject, "title");
 			loaddata(builtUIListViewController);
 			break;
 
 		case 5:
 
-			BuiltQuery notSelectBuiltQueryObject = new BuiltQuery("movie");
+            BuiltQuery notSelectBuiltQueryObject = builtApplication.classWithUid("movie").query();
 			notSelectBuiltQueryObject.lessThan("running_time", 120);
 
 			/*
@@ -154,12 +163,12 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 6:
 
-			ArrayList<BuiltQuery> orQueryObjects = new ArrayList<BuiltQuery>();
+			ArrayList<BuiltQuery> orQueryObjects = new ArrayList<>();
 
-			BuiltQuery builtQuery1 = new BuiltQuery("nominees");
+			BuiltQuery builtQuery1 = builtApplication.classWithUid("nominees").query();
 			builtQuery1.where("born", "United States");
 
-			BuiltQuery builtQuery2 = new BuiltQuery("nominees");
+			BuiltQuery builtQuery2 = builtApplication.classWithUid("nominees").query();
 			builtQuery2.where("born", "United Kingdom");
 
 			orQueryObjects.add(builtQuery1);
@@ -174,22 +183,22 @@ public class AdvanceQueryResultListActivity extends Activity{
 
 		case 7:
 
-			ArrayList<BuiltQuery> andQueryList = new ArrayList<BuiltQuery>();
-			ArrayList<BuiltQuery> orQueryList = new ArrayList<BuiltQuery>();
+			ArrayList<BuiltQuery> andQueryList = new ArrayList<>();
+			ArrayList<BuiltQuery> orQueryList = new ArrayList<>();
 			
-			BuiltQuery query1 = new BuiltQuery("nominees");
+			BuiltQuery query1 = builtApplication.classWithUid("nominees").query();
 			query1.where("born", "United States");
 
-			BuiltQuery query2 = new BuiltQuery("nominees");
+			BuiltQuery query2 = builtApplication.classWithUid("nominees").query();
 			query2.where("born", "United Kingdom");
 
 			orQueryList.add(query1);
 			orQueryList.add(query2);
 			
-			BuiltQuery query3 = new BuiltQuery("nominees");
+			BuiltQuery query3 = builtApplication.classWithUid("nominees").query();
 			query3.or(orQueryList);
 
-			BuiltQuery query4 = new BuiltQuery("nominees");
+			BuiltQuery query4 = builtApplication.classWithUid("nominees").query();
 			query4.lessThanOrEqualTo("age", 40);
 			
 			andQueryList.add(query3);
